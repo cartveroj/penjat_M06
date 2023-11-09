@@ -1,18 +1,22 @@
+let partidasGanadas = 0;
+let partidasPerdidas = 0;
 function elPenjat(){
-    console.log(
-        "1.-Iniciar juego"+
-        "2.-Estadisticas"+
-        "3.-Salir"
-    );    
     while(true){
-        seleccionUsuario = prompt("Introduzca una opcion (1,2,3)");
+        seleccionUsuario = prompt("Introduzca una opcion: "+"\n"+"1.- Iniciar juego "+
+        "\n"+"2.- Estadisticas "+"\n"+"3.- Salir");
         if(seleccionUsuario == 1){
             palabra = prompt("Introduzca una palabra").toUpperCase();
-            palabraOculta = esconderPalabra(palabra);
-            consola();
+            let palabraCorrecta = validacionPalabra(palabra);
+            if(palabraCorrecta){
+                let palabraOculta = esconderPalabra(palabra);
+                consola(palabra, palabraOculta);
+            }else{
+                alert("Valor incorrecto");
+            }
+            
         }
         if(seleccionUsuario == 2){
-            console.log("dentro de opcion 2");
+            informeEstadisticas();
             break;
         }
         if(seleccionUsuario == 3){
@@ -30,42 +34,53 @@ function esconderPalabra(palabra){
     return palabraOculta.split('');
 }
 
-function consola(){
+function consola(palabra, palabraOculta){
     let letra='';
     let letrasEquivocadas="";
     let letrasAdivinadas = "";
-    let contador = 0;
+    let intentos = 0;
     let numeroMaxIntentos = 6;
     let esLetra = "";
-    while(letra != ' ' & contador <= 6 ){
+    let partidaGanada = false;
+    console.log(palabraOculta);
+    while(intentos < numeroMaxIntentos ){
         letra = prompt("Introduzca una letra").toUpperCase();
-        if(letra.length > 2){
+        if(letra.length > 1){
             alert("Solo se acepta una letra")
         }else{
             esLetra = letra.match(/[A-Z]/i); 
-            // console.log(esLetra);
             if(esLetra != null){
-                console.log("match"+palabra);
-                match = palabra.match(letra);
+                let match = palabra.match(letra);
                 if(match != null){
                     letrasAdivinadas = matchLetrasDentroPalabra(palabra, letra, palabraOculta);
-                    contador++;
-                    console.log(letrasAdivinadas);
-                    if(letrasAdivinadas === palabra){
-                        console.log("Adivino");
+                    if(letrasAdivinadas.join("") === palabra){
+                        console.log(letrasAdivinadas);
+                        alert("Adivinaste la palabra.¡")
+                        partidaGanada = true;
                         break;
-                    }else{
-                        letrasAdivinadas = matchLetrasDentroPalabra(palabra, letra, letrasAdivinadas);
-                    }
-                    console.log(letrasAdivinadas);
+                    }  
                 }else{
-                    contador++;
-                    letrasEquivocadas = esLetra + letrasEquivocadas;
-                    console.log("Letras equivocadas: " + letrasEquivocadas + " numero de intentos: "+ contador +"/"+numeroMaxIntentos ) 
+                    letrasEquivocadas = esLetra+"," + letrasEquivocadas;
+                    intentos++;
                 }
+                if(letrasAdivinadas.length === 0){
+                    console.log(palabraOculta);
+                }else{
+                    console.log(letrasAdivinadas);
+                }
+                let ListadoletrasEquivocadas = (letrasEquivocadas.length > 0) ? letrasEquivocadas.substring(0,letrasEquivocadas.length-1) : "0 ";
+                console.log("Letras equivocadas " +intentos +"/"+numeroMaxIntentos +": " + ListadoletrasEquivocadas  );
             }
         }  
     }
+    if(partidaGanada){
+        partidasGanadas++;
+        
+    }else{
+        alert("Mor penjat");
+        partidasPerdidas++;
+    }
+
 }
 
 function matchLetrasDentroPalabra(palabra, letra, palabraOculta){
@@ -77,4 +92,24 @@ function matchLetrasDentroPalabra(palabra, letra, palabraOculta){
         }
     }
     return palabraOculta;
+}
+
+function informeEstadisticas(){
+    let totalPartidas = parseInt(partidasGanadas + partidasPerdidas);
+    let calcPorcentajeGanadas = Math.trunc(partidasGanadas * 100 / totalPartidas);
+    let porcentajeGanadas = (calcPorcentajeGanadas != null)? calcPorcentajeGanadas:0;
+    let calcPorcentajePerdidas = Math.trunc(partidasPerdidas * 100 / totalPartidas);
+    let porcentajePerdidas = (calcPorcentajePerdidas != null)? calcPorcentajePerdidas :0;
+    console.log("Total partidas jugadas: "+ totalPartidas +"\n");
+    console.log("Partidas ganadas ("+porcentajeGanadas+"%): "+ partidasGanadas);
+    console.log("Partidas perdidas ("+porcentajePerdidas+"%): "+ partidasPerdidas);
+}
+
+function validacionPalabra(palabra){
+    let palabraCorrecta = true;
+   if(palabra.trim().length == 0){
+    palabraCorrecta = false;
+   }
+
+   return palabraCorrecta;
 }

@@ -1,0 +1,32 @@
+.container, .containerPalabras, .containerBtns{
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    
+}
+h1{
+    text-align: center;
+}
+.btnPartida {
+    background-color: green;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+
+  .btnInformes{
+    background-color: rgb(28, 0, 128);
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-left: 10px;
+  }
+
+#jocPenjat{
+  font-size: 70px;
+
+}

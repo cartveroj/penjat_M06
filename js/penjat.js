@@ -1,30 +1,47 @@
 let partidasGanadas = 0;
 let partidasPerdidas = 0;
-function elPenjat(){
-    while(true){
-        seleccionUsuario = prompt("Introduzca una opcion: "+"\n"+"1.- Iniciar juego "+
-        "\n"+"2.- Estadisticas "+"\n"+"3.- Salir");
-        if(seleccionUsuario == 1){
-            palabra = prompt("Introduzca una palabra").toUpperCase();
-            let palabraCorrecta = validacionPalabra(palabra);
-            if(palabraCorrecta){
-                let palabraOculta = esconderPalabra(palabra);
-                consola(palabra, palabraOculta);
-            }else{
-                alert("Valor incorrecto");
-            }
-            
+
+function iniciarPartida(){
+
+    let palabraCorrecta = false;
+    while(!palabraCorrecta){
+        palabra = prompt("Introduzca una palabra").toUpperCase();
+        palabraCorrecta = validacionPalabra(palabra);
+        if(!palabraCorrecta){
+            alert('Introduzca una palabra válida')
         }
-        if(seleccionUsuario == 2){
-            informeEstadisticas();
-            break;
-        }
-        if(seleccionUsuario == 3){
-            break;
-        }
+    }
+    let palabraOculta = esconderPalabra(palabra);
+    palabraAadivinar(palabraOculta);
+    botonesabecedario();
+   // consola(palabra, palabraOculta);    
+}
+
+function botonesabecedario(){
+    const abecedario = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+    for(var i = 0; i< abecedario.length; i++){
+        let button = document.createElement('button');
+        button.id= 'btnLetra';
+        button.value= "'"+abecedario.charAt(i)+"'";
+        //console.log();
+        button.textContent=abecedario.charAt(i);
+        document.querySelector('#abecedario').appendChild(button);
     }
 }
 
+
+function image(){
+    let path ="";
+    let img = document.createElement('img');
+}
+
+function palabraAadivinar(palabraOculta){
+    
+    let lineas = document.createElement('p');
+    lineas.textContent= palabraOculta.join(" ");
+    document.querySelector('#jocPenjat').appendChild(lineas);
+    botonesabecedario();
+}
 function esconderPalabra(palabra){
     let palabraOculta = "";
     for(let i=0; i< palabra.length ; i++){
@@ -42,35 +59,45 @@ function consola(palabra, palabraOculta){
     let numeroMaxIntentos = 6;
     let esLetra = "";
     let partidaGanada = false;
-    console.log(palabraOculta);
-    while(intentos < numeroMaxIntentos ){
-        letra = prompt("Introduzca una letra").toUpperCase();
-        if(letra.length > 1){
-            alert("Solo se acepta una letra")
-        }else{
-            esLetra = letra.match(/[A-Z]/i); 
-            if(esLetra != null){
-                let match = palabra.match(letra);
-                if(match != null){
-                    letrasAdivinadas = matchLetrasDentroPalabra(palabra, letra, palabraOculta);
-                    if(letrasAdivinadas.join("") === palabra){
-                        console.log(letrasAdivinadas);
-                        alert("Adivinaste la palabra.¡")
-                        partidaGanada = true;
-                        break;
-                    }  
-                }else{
-                    letrasEquivocadas = esLetra+"," + letrasEquivocadas;
-                    intentos++;
-                }
-                if(letrasAdivinadas.length === 0){
-                    console.log(palabraOculta);
-                }else{
-                    console.log(letrasAdivinadas);
-                }
-                let ListadoletrasEquivocadas = (letrasEquivocadas.length > 0) ? letrasEquivocadas.substring(0,letrasEquivocadas.length-1) : "0 ";
-                console.log("Letras equivocadas " +intentos +"/"+numeroMaxIntentos +": " + ListadoletrasEquivocadas  );
+   
+    while(intentos < numeroMaxIntentos  ){ 
+        const botonesabecedario = document.querySelector('#btnLetras');
+        const cuandoSeHaceClick = function (evento) {
+            // Recuerda, this es el elemento
+            console.log("El texto que tiene es: ", this.innerText);
+        
+            // Podemos cambiar cualquier cosa, p.ej. el estilo
+            this.style.borderColor = "blue";
+        }
+        // botones es un arreglo así que lo recorremos
+        botones.forEach(botonesabecedario => {
+            //Agregar listener
+            botonesabecedario.addEventListener("click", cuandoSeHaceClick);
+        });
+        if(letra != null){
+            let match = palabra.match(letra);
+            if(match != null){
+                letrasAdivinadas = matchLetrasDentroPalabra(palabra, letra, palabraOculta);
+                if(letrasAdivinadas.join("") === palabra){
+                    palabraAadivinar(letrasAdivinadas);
+                    alert("Adivinaste la palabra.¡")
+                    partidaGanada = true;
+                    break;
+                }  
+            }else{
+                letrasEquivocadas = esLetra+"," + letrasEquivocadas;
+                intentos++;
             }
+            if(letrasAdivinadas.length === 0){
+                // console.log(palabraOculta);
+                palabraAadivinar(palabraOculta);
+            }else{
+                //console.log(letrasAdivinadas);
+                palabraAadivinar(letrasAdivinadas);
+            }
+
+            let ListadoletrasEquivocadas = (letrasEquivocadas.length > 0) ? letrasEquivocadas.substring(0,letrasEquivocadas.length-1) : "0 ";
+            console.log("Letras equivocadas " +intentos +"/"+numeroMaxIntentos +": " + ListadoletrasEquivocadas  );
         }  
     }
     if(partidaGanada){
@@ -82,6 +109,8 @@ function consola(palabra, palabraOculta){
     }
 
 }
+
+
 
 function matchLetrasDentroPalabra(palabra, letra, palabraOculta){
     let arrayPalabra = palabra.split('');

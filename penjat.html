@@ -5,14 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joc del penjat</title>
     <script src="./js/penjat.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>El penjat</h1>
-    <ol>
-        <li>Iniciar joc</li>
-        <li>Estadisticas</li>
-        <li>Salida</li>
-    </ol>
-    <button onclick="elPenjat()">haz click para iniciar</button>
+    <img src="" alt="">
+    <div class="container">
+        <button class="btnPartida" onclick="iniciarPartida()"> Iniciar partida </button>
+        <button class="btnInformes" onclick="informe()"> Informes </button>
+        
+    </div>
+    <div class="containerPalabras">
+        <p id="jocPenjat"></p>
+    </div>
+    <div class="containerBtns">
+        <div id="abecedario"></div>
+    </div>
 </body>
 </html>

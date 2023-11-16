@@ -1,4 +1,4 @@
-.container, .containerPalabras, .containerBtns{
+.container, .containerPalabras, .containerBtns, .containerTxt, .containerImg{
     display: flex;
     margin: 0 auto;
     align-items: center;
@@ -27,6 +27,16 @@ h1{
   }
 
 #jocPenjat{
-  font-size: 70px;
-
+  font-size: 60px;
+  margin: 0px;
+}
+#text{
+  font-size: 20px;
+}
+img{
+  margin-top: 15px;
+  height: 150px;
+}
+#btnLetra{
+  margin: 4px;
 }

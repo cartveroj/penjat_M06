@@ -1,13 +1,17 @@
+//declaracion de variables globales
 let partidasGanadas = 0;
 let partidasPerdidas = 0;
+
+//inicializa el juego y en funcion a la seleccion realiza una opcion
 function elPenjat(){
     while(true){
-        seleccionUsuario = prompt("Introduzca una opcion: "+"\n"+"1.- Iniciar juego "+
-        "\n"+"2.- Estadisticas "+"\n"+"3.- Salir");
+        seleccionUsuario = prompt("Introduzca una opcion: "+"\n"+
+        "1.- Iniciar juego "+
+        "\n"+"2.- Estadisticas "
+        +"\n"+"3.- Salir");
         if(seleccionUsuario == 1){
             palabra = prompt("Introduzca una palabra").toUpperCase();
-            let palabraCorrecta = validacionPalabra(palabra);
-            if(palabraCorrecta){
+            if(validacionPalabra(palabra)){
                 let palabraOculta = esconderPalabra(palabra);
                 consola(palabra, palabraOculta);
             }else{
@@ -25,6 +29,7 @@ function elPenjat(){
     }
 }
 
+//reemplaza la palabra ingresada por lineas
 function esconderPalabra(palabra){
     let palabraOculta = "";
     for(let i=0; i< palabra.length ; i++){
@@ -33,56 +38,75 @@ function esconderPalabra(palabra){
     }
     return palabraOculta.split('');
 }
+// Funcion principal, es la funcion que realiza todo el juego 
+function consola(palabra, palabraOculta) {
 
-function consola(palabra, palabraOculta){
-    let letra='';
-    let letrasEquivocadas="";
+    let letra = '';
+    let letrasEquivocadas = "";
     let letrasAdivinadas = "";
     let intentos = 0;
     let numeroMaxIntentos = 6;
     let esLetra = "";
     let partidaGanada = false;
+
+    // Muestra la palabra oculta en la consola
     console.log(palabraOculta);
-    while(intentos < numeroMaxIntentos ){
+
+    // Bucle principal del juego
+    while (intentos < numeroMaxIntentos) {
+        // Solicita al usuario que introduzca una letra
         letra = prompt("Introduzca una letra").toUpperCase();
-        if(letra.length > 1){
-            alert("Solo se acepta una letra")
-        }else{
-            esLetra = letra.match(/[A-Z]/i); 
-            if(esLetra != null){
+
+        // Validación de entrada: asegura que solo se ingrese una letra
+        if (letra.length > 1) {
+            alert("Solo se acepta una letra");
+        } else {
+            // Validación de entrada: asegura que la entrada sea una letra
+            esLetra = letra.match(/[A-Z]/i);
+
+            if (esLetra != null) {
+                // Comprueba si la letra está en la palabra
                 let match = palabra.match(letra);
-                if(match != null){
+
+                if (match != null) {
+                    // Actualiza las letras adivinadas y verifica si se ha adivinado toda la palabra
                     letrasAdivinadas = matchLetrasDentroPalabra(palabra, letra, palabraOculta);
-                    if(letrasAdivinadas.join("") === palabra){
+                    if (letrasAdivinadas.join("") === palabra) {
                         console.log(letrasAdivinadas);
-                        alert("Adivinaste la palabra.¡")
+                        alert("Adivinaste la palabra.¡");
                         partidaGanada = true;
                         break;
-                    }  
-                }else{
-                    letrasEquivocadas = esLetra+"," + letrasEquivocadas;
+                    }
+                } else {
+                    // Actualiza las letras equivocadas y aumenta el contador de intentos
+                    letrasEquivocadas = esLetra + "," + letrasEquivocadas;
                     intentos++;
                 }
-                if(letrasAdivinadas.length === 0){
+
+                // Muestra las letras adivinadas o la palabra oculta en la consola
+                if (letrasAdivinadas.length === 0) {
                     console.log(palabraOculta);
-                }else{
+                } else {
                     console.log(letrasAdivinadas);
                 }
-                let ListadoletrasEquivocadas = (letrasEquivocadas.length > 0) ? letrasEquivocadas.substring(0,letrasEquivocadas.length-1) : "0 ";
-                console.log("Letras equivocadas " +intentos +"/"+numeroMaxIntentos +": " + ListadoletrasEquivocadas  );
+
+                // Muestra las letras equivocadas y la información sobre los intentos en la consola
+                let ListadoletrasEquivocadas = (letrasEquivocadas.length > 0) ? letrasEquivocadas.substring(0, letrasEquivocadas.length - 1) : "0 ";
+                console.log("Letras equivocadas " + intentos + "/" + numeroMaxIntentos + ": " + ListadoletrasEquivocadas);
             }
-        }  
+        }
     }
-    if(partidaGanada){
+
+    // Determina el resultado de la partida y actualiza las estadísticas
+    if (partidaGanada) {
         partidasGanadas++;
-        
-    }else{
+    } else {
         alert("Mor penjat");
         partidasPerdidas++;
     }
-
 }
 
+// Añade la letra a las posiciones correspondientes en la palabra oculta
 function matchLetrasDentroPalabra(palabra, letra, palabraOculta){
     let arrayPalabra = palabra.split('');
     for(let i=0 ; i < arrayPalabra.length ; i++){
@@ -93,7 +117,7 @@ function matchLetrasDentroPalabra(palabra, letra, palabraOculta){
     }
     return palabraOculta;
 }
-
+// Función principal que muestra el informe por consola
 function informeEstadisticas(){
     let totalPartidas = parseInt(partidasGanadas + partidasPerdidas);
     let calcPorcentajeGanadas = Math.trunc(partidasGanadas * 100 / totalPartidas);
@@ -105,6 +129,7 @@ function informeEstadisticas(){
     console.log("Partidas perdidas ("+porcentajePerdidas+"%): "+ partidasPerdidas);
 }
 
+// Valida que la palabra ingresada sea válida
 function validacionPalabra(palabra){
     let palabraCorrecta = true;
    if(palabra.trim().length == 0){

@@ -1,13 +1,29 @@
+
+/* Estilos para el cuerpo de la página */
+body{
+  background-image: url(../img_penjat/fondo.penjat.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+}
+/* Estilos para los contenedores principales utilizando flexbox */
 .container, .containerPalabras, .containerBtns, .containerTxt, .containerImg{
     display: flex;
-    margin: 0 auto;
+    margin: 0;
+    padding: 0%;
     align-items: center;
     justify-content: center;
     
 }
+/* Estilos para el título principal */
 h1{
     text-align: center;
+    margin-top: 10vh;
+    color: #fff;
 }
+/* Estilos para el botón de inicio de partida */
 .btnPartida {
     background-color: green;
     color: #fff;
@@ -16,7 +32,7 @@ h1{
     text-decoration: none;
     margin-right: 10px;
   }
-
+/* Estilos para el botón de informes */
   .btnInformes{
     background-color: rgb(28, 0, 128);
     color: #fff;
@@ -25,18 +41,22 @@ h1{
     text-decoration: none;
     margin-left: 10px;
   }
-
+/* Estilos para el elemento que muestra la palabra del juego */
 #jocPenjat{
-  font-size: 60px;
-  margin: 0px;
+  font-size: 6vh;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #fff;
+
 }
+/* Estilos para el elemento que muestra las letras equivocadas */
 #text{
-  font-size: 20px;
+  font-size: 3vh;
+  margin-top: 0;
+  color: #fff;
 }
+/* Estilos para las imágenes */
 img{
-  margin-top: 15px;
-  height: 150px;
-}
-#btnLetra{
-  margin: 4px;
+  margin-top: 2vh;
+  height: 23vh;
 }

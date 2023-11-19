@@ -66,9 +66,9 @@ function consola(palabra, palabraOculta) {
 
             if (esLetra != null) {
                 // Comprueba si la letra está en la palabra
-                let match = palabra.match(letra);
+                let match = palabra.includes(letra);
 
-                if (match != null) {
+                if (match) {
                     // Actualiza las letras adivinadas y verifica si se ha adivinado toda la palabra
                     letrasAdivinadas = matchLetrasDentroPalabra(palabra, letra, palabraOculta);
                     if (letrasAdivinadas.join("") === palabra) {
